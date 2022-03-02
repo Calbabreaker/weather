@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next/types";
-import { CurrentWeatherResponse, getCurrentWeather } from "lib/weather";
+import { CurrentWeatherResponse, formatLocation, getCurrentWeather } from "lib/weather";
 import { WeatherBox } from "components/WeatherBox";
 import Head from "next/head";
 
@@ -12,7 +12,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ params }) 
         return {
             redirect: {
                 destination: "/",
-                permanent: false,
+                permanent: true,
             },
         };
     }
@@ -30,7 +30,7 @@ export default function Weather({ data }: Props) {
         return (
             <>
                 <Head>
-                    <title>{data.location.name}</title>
+                    <title>Weather - {formatLocation(data.location)}</title>
                 </Head>
                 <WeatherBox data={data} />
             </>

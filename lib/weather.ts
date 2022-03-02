@@ -33,17 +33,29 @@ interface CurrentWeather {
     gust_kph: number;
 }
 
+export interface SearchLocation {
+    id: number;
+    name: string;
+    region: string;
+    country: string;
+    lat: number;
+    lon: number;
+    url: string;
+}
+
 export interface WeatherApiError {
     code: number;
     message: string;
 }
 
-export type CurrentWeatherResponse = {
+export interface CurrentWeatherResponse {
     current: CurrentWeather;
     location: Location;
     // note if there is error then previous fields will not be sent but easier to do it like this
     error?: WeatherApiError;
-};
+}
+
+export type SearchLocationsResponse = SearchLocation[] | { error: WeatherApiError };
 
 async function fetchApi(endPointAndQueries: string): Promise<any> {
     const url = `https://api.weatherapi.com/v1/${endPointAndQueries}&key=${process.env.WEATHER_API_KEY}`;
@@ -54,4 +66,12 @@ async function fetchApi(endPointAndQueries: string): Promise<any> {
 
 export async function getCurrentWeather(query: string): Promise<CurrentWeatherResponse> {
     return await fetchApi(`current.json?aqi=no&q=${query}`);
+}
+
+export async function searchLocation(query: string): Promise<SearchLocationsResponse> {
+    return await fetchApi(`search.json?q=${query}`);
+}
+
+export function formatLocation(location: Location | SearchLocation): string {
+    return `${location.name}, ${location.region}, ${location.country}`;
 }
