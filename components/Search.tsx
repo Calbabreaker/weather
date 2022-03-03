@@ -2,10 +2,12 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import Router from "next/router";
 import { formatLocation, SearchLocation } from "lib/weather";
 import Link from "next/link";
+import { FaLocationArrow, FaSearch } from "react-icons/fa";
 
 export const Search: React.FC = () => {
     const [query, setQuery] = useState("");
     const [suggestions, setSuggestions] = useState<SearchLocation[]>([]);
+    const [isFocused, setIsFocused] = useState(false);
     const timeout = useRef<NodeJS.Timeout>();
 
     useEffect(() => {
@@ -29,20 +31,32 @@ export const Search: React.FC = () => {
         Router.push(`/weather/${query}`);
     }
 
+    Router.events.on("routeChangeComplete", () => setQuery(""));
+
     return (
         <form onSubmit={searchLocation} className="search">
+            <button>
+                <FaLocationArrow />
+            </button>
             <input
-                placeholder="Location, Coordinates, IP Address"
+                placeholder="Search location, coordinates, IP address"
                 type="text"
                 onInput={(e) => setQuery(e.currentTarget.value)}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setTimeout(() => setIsFocused(false), 100)}
             />
-            <div>
-                {suggestions.map((suggestion) => (
-                    <Link href={`/weather/${suggestion.url}`} key={suggestion.id}>
-                        {formatLocation(suggestion)}
-                    </Link>
-                ))}
-            </div>
+            <button>
+                <FaSearch />
+            </button>
+            {isFocused && (
+                <div className="suggestions">
+                    {suggestions.map((suggestion) => (
+                        <Link href={`/weather/${suggestion.url}`} key={suggestion.id}>
+                            {formatLocation(suggestion)}
+                        </Link>
+                    ))}
+                </div>
+            )}
         </form>
     );
 };

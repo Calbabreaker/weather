@@ -1,12 +1,14 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { Search } from "components/Search";
+import { NavBar } from "components/NavBar";
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
-        <main>
-            <Component {...pageProps} />
-            <Search />
-        </main>
+        <>
+            <NavBar />
+            <main>
+                <Component {...pageProps} />
+            </main>
+        </>
     );
 }
