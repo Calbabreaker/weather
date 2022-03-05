@@ -10,42 +10,66 @@ export const Search: React.FC = () => {
     const [isFocused, setIsFocused] = useState(false);
     const timeout = useRef<NodeJS.Timeout>();
 
+    async function fillSuggestions() {
+        const res = await fetch(`/api/search?query=${query}`);
+        const data = await res.json();
+        if (data.error) {
+            alert(`Error with searching: ${data.error.message}`);
+        } else {
+            setSuggestions(data);
+        }
+    }
+
     useEffect(() => {
         if (!query) return setSuggestions([]);
 
         // when user stops typing for certain time peform search
         if (timeout.current) clearTimeout(timeout.current);
-        timeout.current = setTimeout(async () => {
-            const res = await fetch(`/api/search?query=${query}`);
-            const data = await res.json();
-            if (data.error) {
-                alert(`Error with searching: ${data.error.message}`);
-            } else {
-                setSuggestions(data);
-            }
-        }, 250);
+        timeout.current = setTimeout(fillSuggestions, 250);
     }, [query]);
 
-    function searchLocation(e: FormEvent<HTMLFormElement>) {
+    useEffect(() => {
+        Router.events.on("routeChangeComplete", () => setQuery(""));
+    }, []);
+
+    async function searchLocation(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        Router.push(`/weather/${query}`);
+        if (query) {
+            // fill suggestions as to get the correct url
+            await fillSuggestions();
+            Router.push(`/weather/${suggestions[0].url}`);
+        }
     }
 
-    Router.events.on("routeChangeComplete", () => setQuery(""));
+    function geolocateSearch() {
+        navigator.geolocation.getCurrentPosition(
+            ({ coords }) => {
+                Router.push(`/weather/${coords.latitude},${coords.longitude}`);
+            },
+            () => alert("Failed to get current location.")
+        );
+    }
+
+    function unfocusInput() {
+        if (document.activeElement?.className != "suggestions") {
+            setIsFocused(true);
+        }
+    }
 
     return (
         <form onSubmit={searchLocation} className="search">
-            <button>
+            <button title="Search using current location" onClick={geolocateSearch} type="button">
                 <FaLocationArrow />
             </button>
             <input
                 placeholder="Search location, coordinates, IP address"
                 type="text"
-                onInput={(e) => setQuery(e.currentTarget.value)}
+                value={query}
+                onChange={(e) => setQuery(e.currentTarget.value)}
                 onFocus={() => setIsFocused(true)}
-                onBlur={() => setTimeout(() => setIsFocused(false), 100)}
+                onBlur={unfocusInput}
             />
-            <button>
+            <button title="Search">
                 <FaSearch />
             </button>
             {isFocused && (
