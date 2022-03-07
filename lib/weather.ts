@@ -15,7 +15,7 @@ interface CurrentWeather {
     is_day: number;
     condition: {
         text: number;
-        icon: number;
+        icon: string;
         code: number;
     };
     wind_kph: number;

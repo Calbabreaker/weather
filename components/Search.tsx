@@ -36,8 +36,9 @@ export const Search: React.FC = () => {
         e.preventDefault();
         if (query) {
             // fill suggestions as to get the correct url
+            if (timeout.current) clearTimeout(timeout.current);
             await fillSuggestions();
-            Router.push(`/weather/${suggestions[0].url}`);
+            Router.push(`/weather/${suggestions[0]?.url ?? query}`);
         }
     }
 
