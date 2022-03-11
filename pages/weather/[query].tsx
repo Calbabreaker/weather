@@ -1,10 +1,10 @@
 import { GetServerSideProps } from "next/types";
-import { CurrentWeatherResponse, formatLocation, getCurrentWeather } from "lib/weather";
+import { ForcastResponse, formatLocation, getForecast } from "lib/weather";
 import { WeatherBox } from "components/WeatherBox";
 import Head from "next/head";
 
 interface Props {
-    data: CurrentWeatherResponse;
+    data: ForcastResponse;
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async ({ params }) => {
@@ -17,7 +17,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async ({ params }) 
         };
     }
 
-    const data = await getCurrentWeather(params.query);
+    const data = await getForecast(params.query, 1);
     return {
         props: { data },
     };

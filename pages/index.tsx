@@ -1,7 +1,8 @@
 export default function Index() {
     return (
         <>
-            <h1>Find out the Weather</h1>
+            <h1>Weather app</h1>
+            <p>Find out the weather and forecast with this web app.</p>
         </>
     );
 }
