@@ -1,10 +1,11 @@
 import { GetServerSideProps } from "next/types";
-import { ForcastResponse, formatLocation, getForecast } from "lib/weather";
+import { ForecastResponse, formatLocation, getForecast } from "lib/weather";
 import { WeatherBox } from "components/WeatherBox";
 import Head from "next/head";
+import { Forecast } from "components/Forecast";
 
 interface Props {
-    data: ForcastResponse;
+    data: ForecastResponse;
 }
 
 export const getServerSideProps: GetServerSideProps<Props> = async ({ params }) => {
@@ -29,10 +30,12 @@ export default function Weather({ data }: Props) {
     } else {
         return (
             <>
+                <h2>{formatLocation(data.location)}</h2>
                 <Head>
                     <title>Weather - {formatLocation(data.location)}</title>
                 </Head>
-                <WeatherBox data={data} />
+                <WeatherBox weather={data.current} />
+                <Forecast days={data.forecast.forecastday} />
             </>
         );
     }

@@ -15,7 +15,7 @@ interface Condition {
     code: number;
 }
 
-interface CurrentWeather {
+export interface CurrentWeather {
     last_updated_epoch: number;
     temp_c: number;
     is_day: number;
@@ -35,7 +35,7 @@ interface CurrentWeather {
     gust_kph: number;
 }
 
-interface ForcastHour {
+interface ForecastHour {
     time_epoch: 1646697600;
     temp_c: 3.0;
     is_day: 0;
@@ -62,7 +62,7 @@ interface ForcastHour {
     uv: 1.0;
 }
 
-interface ForcastDay {
+export interface ForecastDay {
     date_epoch: number;
     day: {
         maxtemp_c: number;
@@ -88,7 +88,7 @@ interface ForcastDay {
         moon_phase: string;
         moon_illumination: string;
     };
-    hour: ForcastHour[];
+    hour: ForecastHour[];
 }
 
 export interface SearchLocation {
@@ -108,10 +108,10 @@ export interface WeatherApiError {
 
 export type SearchLocationsResponse = SearchLocation[] | { error: WeatherApiError };
 
-export interface ForcastResponse {
+export interface ForecastResponse {
     location: Location;
     current: CurrentWeather;
-    forecast: { forcastday: ForcastDay[] };
+    forecast: { forecastday: ForecastDay[] };
     // note if there is error then previous fields will not be sent but easier to do it like this
     error?: WeatherApiError;
 }
@@ -123,7 +123,7 @@ async function fetchApi(endPointAndQueries: string): Promise<any> {
     return data;
 }
 
-export async function getForecast(query: string, days: number): Promise<ForcastResponse> {
+export async function getForecast(query: string, days: number): Promise<ForecastResponse> {
     return await fetchApi(`forecast.json?q=${query}&days=${days}&aqi=no&alerts=no`);
 }
 
