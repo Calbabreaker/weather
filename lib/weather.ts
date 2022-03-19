@@ -10,9 +10,8 @@ interface Location {
 }
 
 interface Condition {
-    text: number;
+    text: string;
     icon: string;
-    code: number;
 }
 
 export interface CurrentWeather {
@@ -36,30 +35,30 @@ export interface CurrentWeather {
 }
 
 interface ForecastHour {
-    time_epoch: 1646697600;
-    temp_c: 3.0;
-    is_day: 0;
+    time_epoch: number;
+    temp_c: number;
+    is_day: number;
     condition: Condition;
-    wind_kph: 16.2;
-    wind_degree: 124;
+    wind_kph: number;
+    wind_degree: number;
     wind_dir: "SE";
-    pressure_mb: 1019.0;
-    pressure_in: 30.08;
-    precip_mm: 0.0;
-    precip_in: 0.0;
-    humidity: 61;
-    cloud: 0;
-    feelslike_c: -0.9;
-    windchill_c: -0.9;
-    heatindex_c: 3.0;
-    dewpoint_c: -3.8;
-    will_it_rain: 0;
-    chance_of_rain: 0;
-    will_it_snow: 0;
-    chance_of_snow: 0;
-    vis_km: 10.0;
-    gust_kph: 24.5;
-    uv: 1.0;
+    pressure_mb: number;
+    pressure_in: number;
+    precip_mm: number;
+    precip_in: number;
+    humidity: number;
+    cloud: number;
+    feelslike_c: number;
+    windchill_c: number;
+    heatindex_c: number;
+    dewpoint_c: number;
+    will_it_rain: number;
+    chance_of_rain: number;
+    will_it_snow: number;
+    chance_of_snow: number;
+    vis_km: number;
+    gust_kph: number;
+    uv: number;
 }
 
 export interface ForecastDay {

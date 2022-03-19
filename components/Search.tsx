@@ -53,7 +53,7 @@ export const Search: React.FC = () => {
 
     function unfocusInput() {
         if (document.activeElement?.className != "suggestions") {
-            setIsFocused(true);
+            setIsFocused(false);
         }
     }
 

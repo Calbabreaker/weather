@@ -8,7 +8,7 @@ interface WeatherBoxProps {
 export const WeatherBox: React.FC<WeatherBoxProps> = ({ weather }) => {
     return (
         <div className="weather">
-            <img src={"https:" + weather.condition.icon}></img>
+            <img src={"https:" + weather.condition.icon} alt={weather.condition.text} />
             <div>
                 <h1>
                     {weather.temp_c}°C {weather.condition.text}

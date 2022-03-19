@@ -84,3 +84,8 @@ nav {
     height: 5rem;
     margin-top: -10px;
 }
+
+.forecast img {
+    width: 2rem;
+    height: 2rem;
+}
