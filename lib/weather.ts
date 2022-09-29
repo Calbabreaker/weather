@@ -34,7 +34,7 @@ export interface CurrentWeather {
     gust_kph: number;
 }
 
-interface ForecastHour {
+export interface ForecastHour {
     time_epoch: number;
     temp_c: number;
     is_day: number;

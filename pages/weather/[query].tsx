@@ -3,6 +3,7 @@ import { ForecastResponse, formatLocation, getForecast } from "lib/weather";
 import { WeatherBox } from "components/WeatherBox";
 import Head from "next/head";
 import { Forecast } from "components/Forecast";
+import { DateTime } from "luxon";
 
 interface Props {
     data: ForecastResponse;
@@ -30,6 +31,7 @@ export default function Weather({ data }: Props) {
     } else {
         return (
             <>
+                {DateTime.now().setZone(data.location.tz_id).toLocaleString(DateTime.TIME_SIMPLE)}
                 <h2>{formatLocation(data.location)}</h2>
                 <Head>
                     <title>{formatLocation(data.location)} - Weather</title>

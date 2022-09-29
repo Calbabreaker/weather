@@ -1,4 +1,10 @@
-import { faArrowUpLong } from "@fortawesome/free-solid-svg-icons";
+import {
+    faArrowUpLong,
+    faCloudShowersHeavy,
+    faDroplet,
+    faSun,
+    faWind,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CurrentWeather } from "lib/weather";
 
@@ -14,14 +20,31 @@ export const WeatherBox: React.FC<WeatherBoxProps> = ({ weather }) => {
                 <h1>
                     {weather.temp_c}°C {weather.condition.text}
                 </h1>
-                <p>
-                    {weather.wind_kph} km/h
-                    <FontAwesomeIcon
-                        className="arrow"
-                        icon={faArrowUpLong}
-                        style={{ transform: `rotate(${weather.wind_degree}deg)` }}
-                    />
-                </p>
+                <div className="stats">
+                    <span>
+                        <FontAwesomeIcon icon={faWind} />
+                        {weather.wind_kph} km/h
+                        <FontAwesomeIcon
+                            icon={faArrowUpLong}
+                            style={{
+                                transform: `rotate(${weather.wind_degree}deg)`,
+                                marginLeft: "0.2rem",
+                            }}
+                        />
+                    </span>
+                    <span>
+                        <FontAwesomeIcon icon={faDroplet} />
+                        {weather.humidity}%
+                    </span>
+                    <span>
+                        <FontAwesomeIcon icon={faCloudShowersHeavy} />
+                        {weather.precip_mm}mm
+                    </span>
+                    <span>
+                        <FontAwesomeIcon icon={faSun} />
+                        {weather.uv}
+                    </span>
+                </div>
             </div>
         </div>
     );

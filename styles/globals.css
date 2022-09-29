@@ -14,6 +14,10 @@ main {
     padding: 2rem;
 }
 
+main h1 {
+    margin-bottom: 1rem;
+}
+
 nav {
     box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
     background: #ddd;
@@ -34,7 +38,7 @@ nav {
     color: inherit;
 }
 
- .search .selected {
+.search .selected {
     background: #ddd;
 }
 
@@ -93,8 +97,12 @@ nav {
     margin-top: -10px;
 }
 
-.weather .arrow {
-    margin-left: 0.5rem;
+.weather svg {
+    margin-right: 0.1rem;
+}
+
+.weather span {
+    margin-right: 1rem;
 }
 
 .forecast {
@@ -114,4 +122,8 @@ nav {
 
 .forecast-item span {
     margin: auto;
+}
+
+.forecast-item span {
+    margin-right: 0.5rem;
 }
