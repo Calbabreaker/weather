@@ -2,7 +2,8 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import Router from "next/router";
 import { formatLocation, SearchLocation } from "lib/weather";
 import Link from "next/link";
-import { FaLocationArrow, FaSearch } from "react-icons/fa";
+import { faLocationArrow, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const Search: React.FC = () => {
     const [query, setQuery] = useState("");
@@ -60,7 +61,7 @@ export const Search: React.FC = () => {
     return (
         <form onSubmit={searchLocation} className="search">
             <button title="Search using current location" onClick={geolocateSearch} type="button">
-                <FaLocationArrow />
+                <FontAwesomeIcon icon={faLocationArrow} />
             </button>
             <input
                 placeholder="Search location, coordinates, IP address"
@@ -71,7 +72,7 @@ export const Search: React.FC = () => {
                 onBlur={unfocusInput}
             />
             <button title="Search">
-                <FaSearch />
+                <FontAwesomeIcon icon={faSearch} />
             </button>
             {isFocused && (
                 <div className="suggestions">

@@ -1,5 +1,6 @@
+import { faArrowUpLong } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CurrentWeather } from "lib/weather";
-import { FaLongArrowAltUp } from "react-icons/fa";
 
 interface WeatherBoxProps {
     weather: CurrentWeather;
@@ -15,7 +16,10 @@ export const WeatherBox: React.FC<WeatherBoxProps> = ({ weather }) => {
                 </h1>
                 <p>
                     {weather.wind_kph} km/h
-                    <FaLongArrowAltUp style={{ transform: `rotate(${weather.wind_degree}deg)` }} />
+                    <FontAwesomeIcon
+                        icon={faArrowUpLong}
+                        style={{ transform: `rotate(${weather.wind_degree}deg)` }}
+                    />
                 </p>
             </div>
         </div>
