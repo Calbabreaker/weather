@@ -131,5 +131,6 @@ export async function searchLocation(query: string): Promise<SearchLocationsResp
 }
 
 export function formatLocation(location: Location | SearchLocation): string {
-    return `${location.name}, ${location.region}, ${location.country}`;
+    const array = [location.name, location.region, location.country].filter((a) => a);
+    return array.join(", ");
 }

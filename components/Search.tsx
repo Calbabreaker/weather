@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import Router from "next/router";
 import { formatLocation, SearchLocation } from "lib/weather";
 import Link from "next/link";
@@ -8,8 +8,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export const Search: React.FC = () => {
     const [query, setQuery] = useState("");
     const [suggestions, setSuggestions] = useState<SearchLocation[]>([]);
-    const [isFocused, setIsFocused] = useState(false);
+    const [focused, setFocused] = useState(false);
+    const [selectedIndex, setSelectedIndex] = useState<number>(0);
     const timeout = useRef<NodeJS.Timeout>();
+    const formElement = useRef<HTMLFormElement>(null);
 
     async function fillSuggestions() {
         const res = await fetch(`/api/search?query=${query}`);
@@ -21,25 +23,34 @@ export const Search: React.FC = () => {
         }
     }
 
+    function onClick(event: MouseEvent) {
+        const target = event.target as HTMLElement;
+        if (!formElement.current?.contains(target)) {
+            setFocused(false);
+        }
+    }
+
     useEffect(() => {
         if (!query) return setSuggestions([]);
 
-        // when user stops typing for certain time peform search
+        // When user stops typing for certain time peform search
         if (timeout.current) clearTimeout(timeout.current);
         timeout.current = setTimeout(fillSuggestions, 250);
     }, [query]);
 
     useEffect(() => {
         Router.events.on("routeChangeComplete", () => setQuery(""));
+        document.addEventListener("mousedown", onClick);
+        return () => document.removeEventListener("mousedown", onClick);
     }, []);
 
-    async function searchLocation(e: FormEvent<HTMLFormElement>) {
+    async function selectSuggestion(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (query) {
-            // fill suggestions as to get the correct url
+            // Fill suggestions as to get the correct url
             if (timeout.current) clearTimeout(timeout.current);
             await fillSuggestions();
-            Router.push(`/weather/${suggestions[0]?.url ?? query}`);
+            Router.push(`/weather/${suggestions[selectedIndex]?.url ?? query}`);
         }
     }
 
@@ -52,8 +63,22 @@ export const Search: React.FC = () => {
         );
     }
 
+    function onKeyDown(e: React.KeyboardEvent) {
+        if (e.code == "ArrowDown") {
+            setSelectedIndex(Math.min(selectedIndex + 1, suggestions.length));
+            e.preventDefault();
+        } else if (e.code == "ArrowUp") {
+            setSelectedIndex(Math.max(selectedIndex - 1, 0));
+            e.preventDefault();
+        }
+    }
+
+    function mouseOverSuggestion(i: number) {
+        setSelectedIndex(i);
+    }
+
     return (
-        <form onSubmit={searchLocation} className="search">
+        <form onSubmit={selectSuggestion} className="search" ref={formElement}>
             <button title="Search using current location" onClick={geolocateSearch} type="button">
                 <FontAwesomeIcon icon={faLocationArrow} />
             </button>
@@ -62,21 +87,22 @@ export const Search: React.FC = () => {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.currentTarget.value)}
-                onFocus={() => setIsFocused(true)}
+                onFocus={() => setFocused(true)}
+                onKeyDown={onKeyDown}
             />
             <button title="Search">
                 <FontAwesomeIcon icon={faSearch} />
             </button>
-            {isFocused && (
+            {focused && (
                 <div className="suggestions">
-                    <div className="backclose" onClick={() => setIsFocused(false)} />
-                    {suggestions.map((suggestion) => (
-                        <Link
-                            className="suggestion"
-                            href={`/weather/${suggestion.url}`}
-                            key={suggestion.id}
-                        >
-                            {formatLocation(suggestion)}
+                    {suggestions.map((suggestion, i) => (
+                        <Link href={`/weather/${suggestion.url}`} key={i}>
+                            <a
+                                className={`${i == selectedIndex && "selected"}`}
+                                onMouseOver={() => mouseOverSuggestion(i)}
+                            >
+                                {formatLocation(suggestion)}
+                            </a>
                         </Link>
                     ))}
                 </div>

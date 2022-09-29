@@ -34,7 +34,7 @@ nav {
     color: inherit;
 }
 
-.search a:hover {
+ .search .selected {
     background: #ddd;
 }
 
