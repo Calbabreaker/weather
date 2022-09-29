@@ -17,6 +17,7 @@ export const WeatherBox: React.FC<WeatherBoxProps> = ({ weather }) => {
                 <p>
                     {weather.wind_kph} km/h
                     <FontAwesomeIcon
+                        className="arrow"
                         icon={faArrowUpLong}
                         style={{ transform: `rotate(${weather.wind_degree}deg)` }}
                     />

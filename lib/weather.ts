@@ -41,7 +41,7 @@ interface ForecastHour {
     condition: Condition;
     wind_kph: number;
     wind_degree: number;
-    wind_dir: "SE";
+    wind_dir: string;
     pressure_mb: number;
     pressure_in: number;
     precip_mm: number;

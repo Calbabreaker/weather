@@ -32,7 +32,7 @@ export default function Weather({ data }: Props) {
             <>
                 <h2>{formatLocation(data.location)}</h2>
                 <Head>
-                    <title>Weather - {formatLocation(data.location)}</title>
+                    <title>{formatLocation(data.location)} - Weather</title>
                 </Head>
                 <WeatherBox weather={data.current} />
                 <Forecast days={data.forecast.forecastday} />

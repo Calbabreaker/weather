@@ -52,12 +52,6 @@ export const Search: React.FC = () => {
         );
     }
 
-    function unfocusInput() {
-        if (document.activeElement?.className != "suggestions") {
-            setIsFocused(false);
-        }
-    }
-
     return (
         <form onSubmit={searchLocation} className="search">
             <button title="Search using current location" onClick={geolocateSearch} type="button">
@@ -69,15 +63,19 @@ export const Search: React.FC = () => {
                 value={query}
                 onChange={(e) => setQuery(e.currentTarget.value)}
                 onFocus={() => setIsFocused(true)}
-                onBlur={unfocusInput}
             />
             <button title="Search">
                 <FontAwesomeIcon icon={faSearch} />
             </button>
             {isFocused && (
                 <div className="suggestions">
+                    <div className="backclose" onClick={() => setIsFocused(false)} />
                     {suggestions.map((suggestion) => (
-                        <Link href={`/weather/${suggestion.url}`} key={suggestion.id}>
+                        <Link
+                            className="suggestion"
+                            href={`/weather/${suggestion.url}`}
+                            key={suggestion.id}
+                        >
                             {formatLocation(suggestion)}
                         </Link>
                     ))}

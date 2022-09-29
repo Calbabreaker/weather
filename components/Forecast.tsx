@@ -10,9 +10,11 @@ export const Forecast: React.FC<ForecastProps> = ({ days }) => {
         <div className="forecast">
             {days.map((day) =>
                 day.hour.map((hour, i) => (
-                    <div key={i}>
+                    <div className="forecast-item" key={i}>
                         <img src={"https:" + hour.condition.icon} alt={hour.condition.text} />
-                        {dateformat(hour.time_epoch * 1000, "htt")} {hour.temp_c}°C
+                        <span>
+                            {dateformat(hour.time_epoch * 1000, "htt")} {hour.temp_c}°C
+                        </span>
                     </div>
                 ))
             )}

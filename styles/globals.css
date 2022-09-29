@@ -11,21 +11,20 @@ body {
 
 main {
     text-align: center;
+    padding: 2rem;
 }
 
 nav {
     box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
     background: #ddd;
     padding: 0.5rem;
-    margin-bottom: 2rem;
     display: flex;
     justify-content: center;
 }
 
 .search {
     display: flex;
-    width: 100%;
-    width: max(50%, 20rem);
+    width: clamp(30rem, 50%, 60rem);
 }
 
 .search a {
@@ -62,9 +61,18 @@ nav {
     outline: none;
 }
 
+.backclose {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
 .suggestions {
     text-align: center;
-    width: max(50%, 20rem);
+    width: clamp(30rem, 50%, 60rem);
     position: absolute;
     top: 3rem;
     background: #fff;
@@ -85,7 +93,25 @@ nav {
     margin-top: -10px;
 }
 
-.forecast img {
+.weather .arrow {
+    margin-left: 0.5rem;
+}
+
+.forecast {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.forecast-item {
+    display: flex;
+}
+
+.forecast-item img {
     width: 2rem;
     height: 2rem;
+}
+
+.forecast-item span {
+    margin: auto;
 }
