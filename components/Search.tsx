@@ -83,7 +83,7 @@ export const Search: React.FC = () => {
                 <FontAwesomeIcon icon={faLocationArrow} />
             </button>
             <input
-                placeholder="Search location, coordinates, IP address"
+                placeholder="Search location"
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.currentTarget.value)}
